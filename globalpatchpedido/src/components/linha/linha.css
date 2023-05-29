@@ -1,0 +1,30 @@
+.linha {
+  width: 80%;
+  padding: 0px;
+  display: flex;
+}
+
+.celula {
+  width: 20%;
+}
+
+.bgg {
+  background-color: rgba(148, 217, 135, 0.6);
+  color: black;
+}
+
+.bgg2 {
+  background-color: rgba(18, 160, 116, 0.6);
+  color: black;
+}
+.bgg2 input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+}
+
+.bgsg {
+  background-color: rgba(18, 81, 38, 0.9);
+  color: white;
+}/*# sourceMappingURL=linha.css.map */
