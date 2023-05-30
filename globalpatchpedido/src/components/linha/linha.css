@@ -1,29 +1,32 @@
 .linha {
-  width: 80%;
+  width: 100%;
   padding: 0px;
   display: flex;
 }
 
 .celula {
+  background-color: white;
   width: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.celula.bold {
+  font-weight: 700;
+}
 
-.bgg {
+.backgroud-green {
   background-color: rgba(148, 217, 135, 0.6);
   color: black;
 }
 
-.bgg2 {
+.backgroud-green-2 {
   background-color: rgba(18, 160, 116, 0.6);
   color: black;
 }
-.bgg2 input {
+.backgroud-green-2 input {
   background: transparent;
   border: none;
-  color: white;
   font-size: 20px;
   margin: 5px;
   text-align: center;
@@ -32,4 +35,8 @@
 .bgsg {
   background-color: rgba(18, 81, 38, 0.9);
   color: white;
+}
+
+.top-left-border-radius {
+  border-top-left-radius: 15px;
 }/*# sourceMappingURL=linha.css.map */

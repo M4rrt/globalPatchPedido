@@ -6,7 +6,7 @@ class Linha extends Component {
         const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames } = this.props;
         return (
             <div className="linha">
-                <div className={`celula ${classNames[0]}`}>
+                <div className={`celula ${classNames[0]} bold`}>
                     {
                         produto
                     }

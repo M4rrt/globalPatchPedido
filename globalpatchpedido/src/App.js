@@ -1,60 +1,54 @@
 import { Component } from 'react';
 import './App.css';
-import Linha from "./components/linha/linha.component.jsx"
-
+import Tabela from "./components/tabela/tabela.component.jsx"
+import jsonData from './valores.json';
 class App extends Component {
   constructor() {
     super();
-
+    
+    let tipoTabela = "lucroPresumido";
+    let faixaPreco = "A"
     this.state = {
+
       tabelas: [
         {
           linhas: [
             {
               produto : "",
               tamanho : "P", 
-              especificacao: "50x50", 
+              especificacao: "50 x 50", 
               quantidade:  0, 
-              precoBruto : 33.07, 
+              precoBruto : jsonData[tipoTabela].colchonete[faixaPreco].P, 
               montante : 0,
-              classNames : ["bgg","bgg","bgg2","bgg2","bgsg","bgsg"]
+              classNames : ["backgroud-green top-left-border-radius","backgroud-green","backgroud-green-2","backgroud-green-2","bgsg","bgsg"],
             },
             {
-              produto : "",
+              produto : "Acaochego",
               tamanho : "M", 
-              especificacao: "50x50", 
+              especificacao: "60 x 70", 
               quantidade:  0, 
-              precoBruto : 33.07, 
+              precoBruto : jsonData[tipoTabela].colchonete[faixaPreco].M, 
               montante : 0,
-              classNames : []
+              classNames : ["backgroud-green","backgroud-green","backgroud-green-2","backgroud-green-2","bgsg","bgsg"]
             },
             {
-              produto : "",
+              produto : "Colchonete",
               tamanho : "G", 
-              especificacao: "50x50", 
+              especificacao: "70 x 80", 
               quantidade:  0, 
-              precoBruto : 33.07, 
+              precoBruto : jsonData[tipoTabela].colchonete[faixaPreco].G, 
               montante : 0,
-              classNames : []
+              classNames : ["backgroud-green","backgroud-green","backgroud-green-2","backgroud-green-2","bgsg","bgsg"]
             },
             {
-              produto : "",
+              produto : "Standard",
               tamanho : "GG", 
-              especificacao: "50x50", 
+              especificacao: "90 x 110", 
               quantidade:  0, 
-              precoBruto : 33.07, 
+              precoBruto : jsonData[tipoTabela].colchonete[faixaPreco].G, 
               montante : 0,
-              classNames : []
-            },
-            {
-              produto : "",
-              tamanho : "P", 
-              especificacao: "Total de itens", 
-              quantidade:  0, 
-              precoBruto : 33.07, 
-              montante : 0,
-              classNames : []
-            },
+              classNames : ["backgroud-green","backgroud-green","backgroud-green-2","backgroud-green-2","bgsg","bgsg"]
+            }
           ]
         },
         {
@@ -65,19 +59,14 @@ class App extends Component {
 }
 
 render() {
-  const row  = this.state.tabelas[0].linhas[0]
+  const linhas  = this.state.tabelas[0].linhas
   return (
     <div className="App">
       <header className="App-header">
-        <Linha
-          classNames={row.classNames}
-          produto={row.produto}
-          tamanho={row.tamanho}
-          especificacao={row.especificacao}
-          precoBruto={row.precoBruto}
-          montante={row.montante}
-          quantidade={row.quantidade}
-        />
+
+        {
+          <Tabela linhas={linhas} /> 
+        }
       </header>
     </div>
   );
