@@ -3,7 +3,7 @@ import "./linha.css"
 
 class Linha extends Component {
     render() {
-        const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames } = this.props
+        const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames } = this.props;
         return (
             <div className="linha">
                 <div className={`celula ${classNames[0]}`}>
@@ -22,7 +22,7 @@ class Linha extends Component {
                     }
                 </div>
                 <div className={`celula ${classNames[3]}`}>
-                    <input type="number" placeholder={quantidade} />
+                    <input type="number" defaultValue={quantidade}/>
                 </div>
                 <div className={`celula ${classNames[4]}`}>
                     {

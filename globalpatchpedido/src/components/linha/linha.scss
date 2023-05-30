@@ -6,6 +6,9 @@
 
 .celula {
     width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bgg {
@@ -21,6 +24,8 @@
             border: none;
             color: white;
             font-size: 20px;
+            margin: 5px;
+            text-align: center;
         }
 }
 .bgsg {
