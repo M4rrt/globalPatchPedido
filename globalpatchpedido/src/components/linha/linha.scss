@@ -2,9 +2,17 @@
     width: 100%;
     padding: 0px;
     display: flex;
+    input {
+        background:transparent;
+        border: none;
+        font-size: 20px;
+        margin: 5px;
+        text-align: center;
+    }
 }
 
 .celula {
+    padding: 5px;
     background-color: white;
     width: 20%;
     display: flex;
@@ -12,6 +20,9 @@
     justify-content: center;
     &.bold {
         font-weight: 700;
+    }
+    &.border-top-white{
+        border-top: 2px solid white;
     }
 }
 
@@ -23,13 +34,6 @@
 .backgroud-green-2 {
     background-color: rgba(18, 160, 116, 0.6);
     color: black;
-        input {
-            background:transparent;
-            border: none;
-            font-size: 20px;
-            margin: 5px;
-            text-align: center;
-        }
 }
 .bgsg {
     background-color: rgba(18, 81, 38, 0.9);
@@ -38,4 +42,13 @@
 
 .top-left-border-radius {
     border-top-left-radius: 15px ;
+}
+.top-right-border-radius {
+    border-top-right-radius: 15px ;
+}
+.bottom-right-border-radius {
+    border-bottom-right-radius: 15px ;
+}
+.bottom-left-border-radius {
+    border-bottom-left-radius: 15px ;
 }

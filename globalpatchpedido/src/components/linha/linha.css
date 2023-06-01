@@ -3,8 +3,16 @@
   padding: 0px;
   display: flex;
 }
+.linha input {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  margin: 5px;
+  text-align: center;
+}
 
 .celula {
+  padding: 5px;
   background-color: white;
   width: 20%;
   display: flex;
@@ -13,6 +21,9 @@
 }
 .celula.bold {
   font-weight: 700;
+}
+.celula.border-top-white {
+  border-top: 2px solid white;
 }
 
 .backgroud-green {
@@ -24,13 +35,6 @@
   background-color: rgba(18, 160, 116, 0.6);
   color: black;
 }
-.backgroud-green-2 input {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  margin: 5px;
-  text-align: center;
-}
 
 .bgsg {
   background-color: rgba(18, 81, 38, 0.9);
@@ -39,4 +43,16 @@
 
 .top-left-border-radius {
   border-top-left-radius: 15px;
+}
+
+.top-right-border-radius {
+  border-top-right-radius: 15px;
+}
+
+.bottom-right-border-radius {
+  border-bottom-right-radius: 15px;
+}
+
+.bottom-left-border-radius {
+  border-bottom-left-radius: 15px;
 }/*# sourceMappingURL=linha.css.map */
