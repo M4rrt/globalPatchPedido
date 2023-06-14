@@ -4,7 +4,6 @@ import "./linha.css"
 class Linha extends Component {
     render() {
         const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames,id,onFocus,lastline, onChange} = this.props;
-        console.log(onChange)
         if(lastline===true){
             return(
                 <div className={`linha`}>
