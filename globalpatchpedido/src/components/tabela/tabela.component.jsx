@@ -5,7 +5,6 @@ import './tabela.css';
 class Tabela extends Component {
     render () {
         const { linhas,onQntChangeHandler,onFocusHandler } = this.props;
-        console.log(this.props.onQntChangeHandler)
         return (
             <div className="tabela">
                 {

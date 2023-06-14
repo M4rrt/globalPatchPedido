@@ -3,7 +3,8 @@ import "./linha.css"
 
 class Linha extends Component {
     render() {
-        const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames,id,onFocus,lastline} = this.props;
+        const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames,id,onFocus,lastline, onChange} = this.props;
+        console.log(onChange)
         if(lastline===true){
             return(
                 <div className={`linha`}>
@@ -24,24 +25,24 @@ class Linha extends Component {
                 </div>
                 <div className={`celula ${classNames[3]}`}>
                     {
-                        montante
+                        quantidade
                     }
                 </div>
                 <div className={`celula ${classNames[4]}`}>
                     {
-                        `R$ ${precoBruto}`
+                    
                     }
                 </div>
                 <div className={`celula ${classNames[5]}`}>
 
                     {
-                        `R$ ${montante}`
+                        montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
 
                 </div>
             </div>
         )
-        }else {
+    }else {
             return(
                 <div className={`linha`}>
                 <div className={`celula ${classNames[0]} bold`}>
@@ -60,17 +61,17 @@ class Linha extends Component {
                     }
                 </div>
                 <div className={`celula ${classNames[3]}`}>
-                    <input type="number" defaultValue={quantidade} onChange={this.props.onChange} onFocus={onFocus} id={`${id}`}/>
+                    <input type="number" defaultValue={quantidade} onChange={onChange} onFocus={onFocus} id={`${id}`} min={0}/>
                 </div>
                 <div className={`celula ${classNames[4]}`}>
                     {
-                        `R$ ${precoBruto}`
+                         precoBruto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
                     }
                 </div>
                 <div className={`celula ${classNames[5]}`}>
 
                     {
-                        `R$ ${montante}`
+                        montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
 
                 </div>
