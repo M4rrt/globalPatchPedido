@@ -3,7 +3,7 @@ import "./linha.css"
 
 class Linha extends Component {
     render() {
-        const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames,id,onFocus,lastline, onChange} = this.props;
+        const { produto, tamanho, especificacao, quantidade, precoBruto, montante, classNames,id,onFocus,lastline, onChange, removeLine} = this.props;
         if(lastline===true){
             return(
                 <div className={`linha`}>
@@ -33,11 +33,10 @@ class Linha extends Component {
                     }
                 </div>
                 <div className={`celula ${classNames[5]}`}>
-
                     {
                         montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
-
+                     <button onClick={''} value={id}>Adicionar</button>
                 </div>
             </div>
         )
@@ -72,6 +71,7 @@ class Linha extends Component {
                     {
                         montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
+                    <button onClick={removeLine} value={id}>Remover</button>
 
                 </div>
             </div>

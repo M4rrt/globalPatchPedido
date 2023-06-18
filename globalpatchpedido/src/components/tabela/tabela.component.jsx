@@ -4,7 +4,7 @@ import './tabela.css';
 
 class Tabela extends Component {
     render () {
-        const { linhas,onQntChangeHandler,onFocusHandler } = this.props;
+        const { linhas,onQntChangeHandler,onFocusHandler,removeLine } = this.props;
         return (
             <div className="tabela">
                 {
@@ -22,6 +22,7 @@ class Tabela extends Component {
                         onChange={onQntChangeHandler}
                         onFocus={onFocusHandler}
                         lastline={lastline}
+                        removeLine={removeLine}
                       />
                       })
                 }
