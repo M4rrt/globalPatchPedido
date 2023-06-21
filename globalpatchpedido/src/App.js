@@ -6,11 +6,11 @@ const App = () => {
 
   const [faixaPreco, setPreco] = useState("A");
   const [tipoTabela, setTipoTabela] = useState("lucroPresumido");
-  const [tabelaHandler,setTabelaHandler] = useState();
+  const [tabelaHandler, setTabelaHandler] = useState();
   const [tabela, setTabela] = useState([
     {
       id: 0,
-      produto: "",
+      produto: "colchonete",
       tamanho: "P",
       especificacao: "50 x 50",
       quantidade: 0,
@@ -21,7 +21,7 @@ const App = () => {
     },
     {
       id: 1,
-      produto: "Acaochego",
+      produto: "caminha_P",
       tamanho: "M",
       especificacao: "60 x 70",
       quantidade: 0,
@@ -32,7 +32,7 @@ const App = () => {
     },
     {
       id: 2,
-      produto: "Colchonete",
+      produto: "colchonete",
       tamanho: "G",
       especificacao: "70 x 80",
       quantidade: 0,
@@ -43,7 +43,7 @@ const App = () => {
     },
     {
       id: 3,
-      produto: "Standard",
+      produto: "colchonete",
       tamanho: "GG",
       especificacao: "90 x 110",
       quantidade: 0,
@@ -55,6 +55,7 @@ const App = () => {
     {
       id: 4,
       produto: "",
+      produto_name: "",
       tamanho: "",
       especificacao: "Total de Itens",
       quantidade: 0,
@@ -63,10 +64,9 @@ const App = () => {
       classNames: ["backgroud-green bottom-left-border-radius", "backgroud-green", "bgsg border-top-white", "bgsg border-top-white", "bgsg", "bgsg border-top-white bottom-right-border-radius"],
       lastline: true,
     }
-  ])
+  ])  
 
   useEffect(() => {
-    console.log("effect")
     setTabela(prevTabela => prevTabela.map(linha => {
       if (linha.lastline === true) {
         const newLastLine = {
@@ -85,17 +85,40 @@ const App = () => {
   }, [tabelaHandler])
 
 
+  // ainda não tá funcionando 
+  const addLinha = (event) => {
+    setTabela(prevTabela =>{ 
+      const prevLines = prevTabela
+      .filter(linha => !linha.lastline)
+      const lastline = prevTabela
+        .filter(linha => linha.lastline)
+      const newId = prevTabela
+      .reduce((cont, linha) => linha.id >= cont ? linha.id + 1 : cont, 0)
+      const newTabela = {
+          id: newId,
+          produto: "placeholder",
+          tamanho: "placeholder",
+          especificacao: "placeholder",
+          quantidade: 0,
+          precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].GG,
+          montante: 0,
+          classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
+          lastline: false,
+      }
+      return [...prevLines, {...newTabela}, ...lastline]
+    }
+    )
+  }
+
   const removeLinha = (event) => {
-    console.log(event.target)
     const target = event.target.value
-    console.log(target)
     setTabela(prevTabela => {
-      const tab =  prevTabela.filter(linha => linha.id != target);
+      const tab = prevTabela.filter(linha => linha.id != target);
       return tab
     }
     )
     setTabelaHandler(tabela)
-  } 
+  }
 
   const alterLinha = (event, updateFunction) => {
     updateFunction(prevTabela => prevTabela.map(linha => {
@@ -111,17 +134,41 @@ const App = () => {
       }
       return linha;
     }));
+  }
+  
+  const alterLinhaTabela = (event) => {
+    alterLinha(event, setTabela);
     setTabelaHandler(tabela)
   }
 
-  const alterLinhaTabela = (event) => {
-    alterLinha(event, setTabela);
+  const changeProduto = (event,index) => {
+    const produto = event.target.value;
+    const precoBruto = jsonData[tipoTabela][produto][faixaPreco]["P"];
+    setTabela(prevTabela => prevTabela.map(linha => {
+      if (linha.id === index) {
+        return {...linha, ...{ produto : produto, precoBruto, tamanho : "P", montante: linha.quantidade *precoBruto } }
+      }
+      return linha
+    }))
+    setTabelaHandler(tabela)
   }
+
+  const changeTamanho = (event, index) => {
+    const tam = event.target.value;
+    setTabela(prevTabela => prevTabela.map(linha => {
+      if (linha.id === index) {
+        return {...linha, ...{ precoBruto : jsonData[tipoTabela][linha.produto][faixaPreco][tam], tamanho: tam} }
+      }
+      return linha
+    }))
+    setTabelaHandler(tabela)
+  }
+
 
   return (
     <div className="App">
       <header className="App-header">
-        <Tabela linhas={tabela} onQntChangeHandler={alterLinhaTabela} removeLine={removeLinha} key={1} />
+        <Tabela linhas={tabela} onQntChangeHandler={alterLinhaTabela} removeLine={removeLinha} addLine={addLinha} onChangeProduto={changeProduto} onChangeTamanho={changeTamanho} key={1} />
       </header>
     </div>
   );

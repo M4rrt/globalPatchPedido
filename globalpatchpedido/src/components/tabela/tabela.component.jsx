@@ -4,10 +4,10 @@ import './tabela.css';
 
 class Tabela extends Component {
     render () {
-        const { linhas,onQntChangeHandler,onFocusHandler,removeLine } = this.props;
+        const { linhas,onQntChangeHandler,onFocusHandler,removeLine, addLine, onChangeProduto, onChangeTamanho } = this.props;
         return (
             <div className="tabela">
-                {
+                {   
                     linhas.map((linha)=> {
                         const { classNames, produto, tamanho, especificacao, precoBruto, montante,quantidade, id,lastline } = linha;
                         return <Linha 
@@ -23,6 +23,9 @@ class Tabela extends Component {
                         onFocus={onFocusHandler}
                         lastline={lastline}
                         removeLine={removeLine}
+                        addLine={addLine}
+                        onChangeProduto={onChangeProduto}
+                        onChangeTamanho={onChangeTamanho}
                       />
                       })
                 }
