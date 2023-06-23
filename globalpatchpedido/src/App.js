@@ -96,11 +96,11 @@ const App = () => {
       .reduce((cont, linha) => linha.id >= cont ? linha.id + 1 : cont, 0)
       const newTabela = {
           id: newId,
-          produto: "placeholder",
-          tamanho: "placeholder",
-          especificacao: "placeholder",
+          produto: "colchonete",
+          tamanho: "P",
+          especificacao: jsonData[tipoTabela].colchonete["caracteristica"].P,
           quantidade: 0,
-          precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].GG,
+          precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].P,
           montante: 0,
           classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
           lastline: false,
@@ -110,10 +110,9 @@ const App = () => {
     )
   }
 
-  const removeLinha = (event) => {
-    const target = event.target.value
+  const removeLinha = (event, index) => {
     setTabela(prevTabela => {
-      const tab = prevTabela.filter(linha => linha.id != target);
+      const tab = prevTabela.filter(linha => linha.id != index);
       return tab
     }
     )
@@ -146,10 +145,11 @@ const App = () => {
     const precoBruto = jsonData[tipoTabela][produto][faixaPreco]["P"];
     setTabela(prevTabela => prevTabela.map(linha => {
       if (linha.id === index) {
-        return {...linha, ...{ produto : produto, precoBruto, tamanho : "P", montante: linha.quantidade *precoBruto } }
+        return {...linha, ...{ produto : produto,especificacao: jsonData[tipoTabela][produto]["caracteristica"]["P"], precoBruto, tamanho : "P", montante: linha.quantidade *precoBruto } }
       }
       return linha
     }))
+    console.log(tabela)
     setTabelaHandler(tabela)
   }
 
@@ -157,10 +157,11 @@ const App = () => {
     const tam = event.target.value;
     setTabela(prevTabela => prevTabela.map(linha => {
       if (linha.id === index) {
-        return {...linha, ...{ precoBruto : jsonData[tipoTabela][linha.produto][faixaPreco][tam], tamanho: tam} }
+        return {...linha, ...{ precoBruto : jsonData[tipoTabela][linha.produto][faixaPreco][tam], tamanho: tam},especificacao: jsonData[tipoTabela][linha.produto]["caracteristica"][tam] }
       }
       return linha
     }))
+    console.log(tabela)
     setTabelaHandler(tabela)
   }
 
