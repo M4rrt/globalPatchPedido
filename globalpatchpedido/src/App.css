@@ -36,3 +36,39 @@
     transform: rotate(360deg);
   }
 }
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.col-6 {
+  display: grid;
+  width: 50%;
+  justify-items: center;
+  .input-under {
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: transparent;
+    width: 80%;
+  }
+}
+
+.w-80 {
+  width: 80%;
+  .input-under {
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: transparent;
+    width: 80%;
+    margin-top: 10px;
+    height: 25px;
+    text-align: center;
+  }
+  .input-under::placeholder {
+    text-align: center;
+    font-style: italic;
+    font-size: 20px;
+  }
+}
+
+.btn-enviar { 
+}

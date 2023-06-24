@@ -6,6 +6,15 @@ const App = () => {
 
   const [faixaPreco, setPreco] = useState("A");
   const [tipoTabela, setTipoTabela] = useState("lucroPresumido");
+  const [representante, setRepresentante] = useState('');
+  const [tabelaPreco, setTabelaPreco] = useState('');
+  const [prazoPagamento, setPrazoPagamento] = useState('');
+  const [frete, setFrete] = useState('');
+  const [propostaComercial, setPropostaComercial] = useState('');
+  const [nomeCliente, setNomeCliente] = useState('');
+  const [cnpj, setCnpj] = useState('');
+  const [observacao, setObservasao] = useState('');
+  const [email, setEmail] = useState('');
   const [tabelaHandler, setTabelaHandler] = useState();
   const [tabela, setTabela] = useState([
     {
@@ -64,7 +73,7 @@ const App = () => {
       classNames: ["backgroud-green bottom-left-border-radius", "backgroud-green", "bgsg border-top-white", "bgsg border-top-white", "bgsg", "bgsg border-top-white bottom-right-border-radius"],
       lastline: true,
     }
-  ])  
+  ])
 
   useEffect(() => {
     setTabela(prevTabela => prevTabela.map(linha => {
@@ -87,25 +96,26 @@ const App = () => {
 
   // ainda não tá funcionando 
   const addLinha = (event) => {
-    setTabela(prevTabela =>{ 
+    console.log("adicionando linha")
+    setTabela(prevTabela => {
       const prevLines = prevTabela
-      .filter(linha => !linha.lastline)
+        .filter(linha => !linha.lastline)
       const lastline = prevTabela
         .filter(linha => linha.lastline)
       const newId = prevTabela
-      .reduce((cont, linha) => linha.id >= cont ? linha.id + 1 : cont, 0)
+        .reduce((cont, linha) => linha.id >= cont ? linha.id + 1 : cont, 0)
       const newTabela = {
-          id: newId,
-          produto: "colchonete",
-          tamanho: "P",
-          especificacao: jsonData[tipoTabela].colchonete["caracteristica"].P,
-          quantidade: 0,
-          precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].P,
-          montante: 0,
-          classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
-          lastline: false,
+        id: newId,
+        produto: "colchonete",
+        tamanho: "P",
+        especificacao: jsonData[tipoTabela].colchonete["caracteristica"].P,
+        quantidade: 0,
+        precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].P,
+        montante: 0,
+        classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
+        lastline: false,
       }
-      return [...prevLines, {...newTabela}, ...lastline]
+      return [...prevLines, { ...newTabela }, ...lastline]
     }
     )
   }
@@ -134,18 +144,18 @@ const App = () => {
       return linha;
     }));
   }
-  
+
   const alterLinhaTabela = (event) => {
     alterLinha(event, setTabela);
     setTabelaHandler(tabela)
   }
 
-  const changeProduto = (event,index) => {
+  const changeProduto = (event, index) => {
     const produto = event.target.value;
     const precoBruto = jsonData[tipoTabela][produto][faixaPreco]["P"];
     setTabela(prevTabela => prevTabela.map(linha => {
       if (linha.id === index) {
-        return {...linha, ...{ produto : produto,especificacao: jsonData[tipoTabela][produto]["caracteristica"]["P"], precoBruto, tamanho : "P", montante: linha.quantidade *precoBruto } }
+        return { ...linha, ...{ produto: produto, especificacao: jsonData[tipoTabela][produto]["caracteristica"]["P"], precoBruto, tamanho: "P", montante: linha.quantidade * precoBruto } }
       }
       return linha
     }))
@@ -157,7 +167,7 @@ const App = () => {
     const tam = event.target.value;
     setTabela(prevTabela => prevTabela.map(linha => {
       if (linha.id === index) {
-        return {...linha, ...{ precoBruto : jsonData[tipoTabela][linha.produto][faixaPreco][tam], tamanho: tam},especificacao: jsonData[tipoTabela][linha.produto]["caracteristica"][tam] }
+        return { ...linha, ...{ precoBruto: jsonData[tipoTabela][linha.produto][faixaPreco][tam], tamanho: tam }, especificacao: jsonData[tipoTabela][linha.produto]["caracteristica"][tam] }
       }
       return linha
     }))
@@ -166,10 +176,127 @@ const App = () => {
   }
 
 
+  const envioHandler = (table) => {
+    console.log("Enviado")
+    console.log(table)
+  }
+
+
   return (
     <div className="App">
       <header className="App-header">
+        <div className="flex w-80">
+          <div className="col-6">
+            <label htmlFor="representante">Representante:</label>
+            <input
+              className="input-under"
+              type="text"
+              id="representante"
+              placeholder="representante"
+              value={representante}
+              onChange={(e) => setRepresentante(e.target.value)}
+            />
+          </div>
+          <div className="col-6">
+            <label htmlFor="tabelaPreco">Tabela de Preço:</label>
+            <input
+              className="input-under"
+              type="text"
+              id="tabelaPreco"
+              placeholder="tabela de preço"
+              value={tabelaPreco}
+              onChange={(e) => setTabelaPreco(e.target.value)}
+            />
+          </div>
+          <div className="col-6">
+            <label htmlFor="prazoPagamento">Prazo de Pagamento:</label>
+            <input
+              className="input-under"
+              type="text"
+              id="prazoPagamento"
+              placeholder="prazo de pagamento"
+              value={prazoPagamento}
+              onChange={(e) => setPrazoPagamento(e.target.value)}
+            />
+          </div >
+          <div className="col-6">
+            <label htmlFor="frete">Frete:</label>
+            <input
+              className="input-under"
+              type="text"
+              id="frete"
+              placeholder="frete"
+              value={frete}
+              onChange={(e) => setFrete(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className='w-80'>
+          <label htmlFor="propostaComercial">Proposta Comercial:</label>
+          <input
+            className="input-under"
+            type="text"
+            id="propostaComercial"
+            placeholder="proposta comercial"
+            value={propostaComercial}
+            onChange={(e) => setPropostaComercial(e.target.value)}
+          />
+        </div>
+        <div className="flex w-80">
+          <div className='col-6'>
+            <label htmlFor="nomeCliente">Nome do Cliente:</label>
+            <input
+              className="input-under"
+              type="text"
+              id="nomeCliente"
+              placeholder="nome do cliente"
+              value={nomeCliente}
+              onChange={(e) => setNomeCliente(e.target.value)}
+            />
+          </div>
+          <div className='col-6'>
+            <label htmlFor="cnpj">CNPJ:</label>
+            <input
+              className="input-under"
+              type="text"
+              id="cnpj"
+              placeholder="CNPJ do cliente"
+              value={cnpj}
+              onChange={(e) => setCnpj(e.target.value)}
+            />
+          </div>
+        </div>
+
+
         <Tabela linhas={tabela} onQntChangeHandler={alterLinhaTabela} removeLine={removeLinha} addLine={addLinha} onChangeProduto={changeProduto} onChangeTamanho={changeTamanho} key={1} />
+
+        <div className='w-80'>
+          <label htmlFor="observacao">Observações:</label>
+          <input
+            className="input-under"
+            type="text"
+            id="observacao"
+            placeholder="Observações"
+            value={observacao}
+            onChange={(e) => setObservasao(e.target.value)}
+          />
+        </div>
+
+        <div className='w-80'>
+          <label htmlFor="Email">Email:</label>
+          <input
+            className="input-under"
+            type="text"
+            id="email"
+            placeholder="E-mail do Cliente"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div>
+          <button className="btn-enviar" onClick={() => envioHandler(tabela)}>Enviar</button>
+        </div>
       </header>
     </div>
   );
