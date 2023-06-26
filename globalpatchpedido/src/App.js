@@ -10,7 +10,6 @@ const App = () => {
   const [tabelaPreco, setTabelaPreco] = useState('');
   const [prazoPagamento, setPrazoPagamento] = useState('');
   const [frete, setFrete] = useState('');
-  const [propostaComercial, setPropostaComercial] = useState('');
   const [nomeCliente, setNomeCliente] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [observacao, setObservasao] = useState('');
@@ -93,10 +92,21 @@ const App = () => {
     )
   }, [tabelaHandler])
 
+  useEffect(() => {
+    setTabela(prevTabela => {
+      const newTabela = prevTabela
+        .filter(linha => !linha.lastline).map(linha => {
+          return { ...linha, ...{ precoBruto: jsonData[tipoTabela][linha.produto][faixaPreco][linha.tamanho] } }
+        })
+      const lastline = prevTabela
+        .filter(linha => linha.lastline);
+      return [...newTabela, ...lastline]
+    })
+  }, [tipoTabela])
 
-  // ainda não tá funcionando 
+
   const addLinha = (event) => {
-    console.log("adicionando linha")
+
     setTabela(prevTabela => {
       const prevLines = prevTabela
         .filter(linha => !linha.lastline)
@@ -159,7 +169,7 @@ const App = () => {
       }
       return linha
     }))
-    console.log(tabela)
+
     setTabelaHandler(tabela)
   }
 
@@ -171,7 +181,6 @@ const App = () => {
       }
       return linha
     }))
-    console.log(tabela)
     setTabelaHandler(tabela)
   }
 
@@ -231,17 +240,12 @@ const App = () => {
             />
           </div>
         </div>
-
         <div className='w-80'>
-          <label htmlFor="propostaComercial">Proposta Comercial:</label>
-          <input
-            className="input-under"
-            type="text"
-            id="propostaComercial"
-            placeholder="proposta comercial"
-            value={propostaComercial}
-            onChange={(e) => setPropostaComercial(e.target.value)}
-          />
+          <label htmlFor="tipoTabela">Proposta Comercial</label>
+          <select className="input-under"value={tipoTabela} onChange={(event) => { setTipoTabela(event.target.value) }}>
+            <option value="lucroPresumido">Lucro Presumido</option>
+            <option value="simplesNacional">Simples Nacional</option>
+          </select>
         </div>
         <div className="flex w-80">
           <div className='col-6'>
