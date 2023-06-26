@@ -4,10 +4,9 @@ import Tabela from "./components/tabela/tabela.component.jsx"
 import jsonData from './tabelaPrecos.json';
 const App = () => {
 
-  const [faixaPreco, setPreco] = useState("A");
+  const [faixaPreco, setFaixaPreco] = useState("A");
   const [tipoTabela, setTipoTabela] = useState("lucroPresumido");
   const [representante, setRepresentante] = useState('');
-  const [tabelaPreco, setTabelaPreco] = useState('');
   const [prazoPagamento, setPrazoPagamento] = useState('');
   const [frete, setFrete] = useState('');
   const [nomeCliente, setNomeCliente] = useState('');
@@ -102,7 +101,7 @@ const App = () => {
         .filter(linha => linha.lastline);
       return [...newTabela, ...lastline]
     })
-  }, [tipoTabela])
+  }, [tipoTabela, faixaPreco])
 
 
   const addLinha = (event) => {
@@ -187,7 +186,7 @@ const App = () => {
 
   const envioHandler = (table) => {
     console.log("Enviado")
-    console.log(table)
+    console.log({Produtos:table, infos:{faixaPreco,tipoTabela,representante,prazoPagamento,frete,nomeCliente,cnpj,observacao,email}})
   }
 
 
@@ -206,17 +205,24 @@ const App = () => {
               onChange={(e) => setRepresentante(e.target.value)}
             />
           </div>
+
           <div className="col-6">
             <label htmlFor="tabelaPreco">Tabela de Preço:</label>
-            <input
+            <select
               className="input-under"
-              type="text"
               id="tabelaPreco"
-              placeholder="tabela de preço"
-              value={tabelaPreco}
-              onChange={(e) => setTabelaPreco(e.target.value)}
-            />
+              value={faixaPreco}
+              onChange={(e) => setFaixaPreco(e.target.value)}
+            >
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+            </select>
           </div>
+
           <div className="col-6">
             <label htmlFor="prazoPagamento">Prazo de Pagamento:</label>
             <input
@@ -242,7 +248,7 @@ const App = () => {
         </div>
         <div className='w-80'>
           <label htmlFor="tipoTabela">Proposta Comercial</label>
-          <select className="input-under"value={tipoTabela} onChange={(event) => { setTipoTabela(event.target.value) }}>
+          <select className="input-under" value={tipoTabela} onChange={(event) => { setTipoTabela(event.target.value) }}>
             <option value="lucroPresumido">Lucro Presumido</option>
             <option value="simplesNacional">Simples Nacional</option>
           </select>
