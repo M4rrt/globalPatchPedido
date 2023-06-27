@@ -13,7 +13,6 @@ const App = () => {
   const [cnpj, setCnpj] = useState('');
   const [observacao, setObservasao] = useState('');
   const [email, setEmail] = useState('');
-  const [tabelaHandler, setTabelaHandler] = useState();
   const [tabela, setTabela] = useState([
     {
       id: 0,
@@ -24,7 +23,6 @@ const App = () => {
       precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].P,
       montante: 0,
       classNames: ["backgroud-green top-left-border-radius", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg top-right-border-radius"],
-      lastline: false,
     },
     {
       id: 1,
@@ -35,7 +33,6 @@ const App = () => {
       precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].M,
       montante: 0,
       classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
-      lastline: false,
     },
     {
       id: 2,
@@ -46,7 +43,6 @@ const App = () => {
       precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].G,
       montante: 0,
       classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
-      lastline: false,
     },
     {
       id: 3,
@@ -57,44 +53,13 @@ const App = () => {
       precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].GG,
       montante: 0,
       classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
-      lastline: false,
     },
-    {
-      id: 4,
-      produto: "",
-      produto_name: "",
-      tamanho: "",
-      especificacao: "Total de Itens",
-      quantidade: 0,
-      precoBruto: false,
-      montante: 0,
-      classNames: ["backgroud-green bottom-left-border-radius", "backgroud-green", "bgsg border-top-white", "bgsg border-top-white", "bgsg", "bgsg border-top-white bottom-right-border-radius"],
-      lastline: true,
-    }
   ])
-
-  useEffect(() => {
-    setTabela(prevTabela => prevTabela.map(linha => {
-      if (linha.lastline === true) {
-        const newLastLine = {
-          quantidade: prevTabela
-            .filter(linha => !linha.lastline)
-            .reduce((cont, linha) => cont + linha.quantidade, 0),
-          montante: prevTabela
-            .filter(linha => !linha.lastline)
-            .reduce((cont, linha) => cont + linha.montante, 0)
-        }
-        return { ...linha, ...newLastLine }
-      }
-      return { ...linha }
-    })
-    )
-  }, [tabelaHandler])
 
   useEffect(() => {
     setTabela(prevTabela => {
       const newTabela = prevTabela
-        .filter(linha => !linha.lastline).map(linha => {
+        .map(linha => {
           return { ...linha, ...{ precoBruto: jsonData[tipoTabela][linha.produto][faixaPreco][linha.tamanho] } }
         })
       const lastline = prevTabela
@@ -103,92 +68,13 @@ const App = () => {
     })
   }, [tipoTabela, faixaPreco])
 
-
-  const addLinha = (event) => {
-
-    setTabela(prevTabela => {
-      const prevLines = prevTabela
-        .filter(linha => !linha.lastline)
-      const lastline = prevTabela
-        .filter(linha => linha.lastline)
-      const newId = prevTabela
-        .reduce((cont, linha) => linha.id >= cont ? linha.id + 1 : cont, 0)
-      const newTabela = {
-        id: newId,
-        produto: "colchonete",
-        tamanho: "P",
-        especificacao: jsonData[tipoTabela].colchonete["caracteristica"].P,
-        quantidade: 0,
-        precoBruto: jsonData[tipoTabela].colchonete[faixaPreco].P,
-        montante: 0,
-        classNames: ["backgroud-green", "backgroud-green", "backgroud-green", "backgroud-green-2", "bgsg", "bgsg"],
-        lastline: false,
-      }
-      return [...prevLines, { ...newTabela }, ...lastline]
-    }
-    )
-  }
-
-  const removeLinha = (event, index) => {
-    setTabela(prevTabela => {
-      const tab = prevTabela.filter(linha => linha.id != index);
-      return tab
-    }
-    )
-    setTabelaHandler(tabela)
-  }
-
-  const alterLinha = (event, updateFunction) => {
-    updateFunction(prevTabela => prevTabela.map(linha => {
-      const { precoBruto } = linha;
-      let index = parseInt(event.target.id);
-      const newQnt = parseInt(Math.max(event.target.value, 0) || 0);
-      if (linha.id === index) {
-        let newLinha = {
-          quantidade: newQnt,
-          montante: (precoBruto * newQnt),
-        }
-        return { ...linha, ...newLinha };
-      }
-      return linha;
-    }));
-  }
-
-  const alterLinhaTabela = (event) => {
-    alterLinha(event, setTabela);
-    setTabelaHandler(tabela)
-  }
-
-  const changeProduto = (event, index) => {
-    const produto = event.target.value;
-    const precoBruto = jsonData[tipoTabela][produto][faixaPreco]["P"];
-    setTabela(prevTabela => prevTabela.map(linha => {
-      if (linha.id === index) {
-        return { ...linha, ...{ produto: produto, especificacao: jsonData[tipoTabela][produto]["caracteristica"]["P"], precoBruto, tamanho: "P", montante: linha.quantidade * precoBruto } }
-      }
-      return linha
-    }))
-
-    setTabelaHandler(tabela)
-  }
-
-  const changeTamanho = (event, index) => {
-    const tam = event.target.value;
-    setTabela(prevTabela => prevTabela.map(linha => {
-      if (linha.id === index) {
-        return { ...linha, ...{ precoBruto: jsonData[tipoTabela][linha.produto][faixaPreco][tam], tamanho: tam }, especificacao: jsonData[tipoTabela][linha.produto]["caracteristica"][tam] }
-      }
-      return linha
-    }))
-    setTabelaHandler(tabela)
-  }
-
-
   const envioHandler = (table) => {
     console.log("Enviado")
-    console.log({Produtos:table, infos:{faixaPreco,tipoTabela,representante,prazoPagamento,frete,nomeCliente,cnpj,observacao,email}})
+    console.log({ Produtos: table, infos: { faixaPreco, tipoTabela, representante, prazoPagamento, frete, nomeCliente, cnpj, observacao, email } })
+    setTimeout(() => {
+      alert('enviado');
+    }, 2000)
   }
-
 
   return (
     <div className="App">
@@ -278,8 +164,13 @@ const App = () => {
           </div>
         </div>
 
-
-        <Tabela linhas={tabela} onQntChangeHandler={alterLinhaTabela} removeLine={removeLinha} addLine={addLinha} onChangeProduto={changeProduto} onChangeTamanho={changeTamanho} key={1} />
+        <Tabela
+          linhas={tabela}
+          setTabela={setTabela}
+          faixaPreco={faixaPreco}
+          tipoTabela={tipoTabela}
+          key={1}
+        />
 
         <div className='w-80'>
           <label htmlFor="observacao">Observações:</label>
